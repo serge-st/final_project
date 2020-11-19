@@ -1,6 +1,6 @@
 drop DATABASE `doit_app`;
 
-create database `doit_app`;
+create database `doit_app_db`;
 
 create table `doit_app`.`users` (
     `email` varchar(60) not null,

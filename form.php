@@ -59,24 +59,3 @@ class Form {
 }
 
 ?>
-
-<?php
-
-// private function getFormType() {
-//     return $this->formType;
-// }
-
-// public $callToAction;
-// public $loginOrRegister;
-// // private $callToAction = $this->getFormType() ? "Don't have an account?" . "&nbsp" : "Already have an account?" . "&nbsp";
-// // private $callToAction = $this->getFormType() ? "yesy" : "no";
-// // private $loginOrRegister = $this->getFormType() ? "Register" : "Login";
-
-// if ($this->getFormType()) {
-//     $this->callToAction = "Don't have an account?" . "&nbsp";
-//     $this->loginOrRegister = "Register";
-// } else {
-//     $this->callToAction = "Already have an account?" . "&nbsp";
-//     $this->loginOrRegister = "Login";
-// }
-?>
