@@ -1,3 +1,8 @@
+<?php
+  require_once "./app.php";
+  
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,16 +15,8 @@
 </head>
 <body>
     
-    <h1>Welcome&nbspTo DOIT&nbspApp</h1>
+    <?= runApp()?>
 
-    <div class="container">
-        <form method="POST">
-            <input type="text" placeholder="Username" name="username">
-            <input type="email" placeholder="Email" name="email">
-            <input type="password" placeholder="Password" name="password">
-            <button id="login-button" type="submit">Login/Register</button>
-        </form>
-    </div>
 
 </body>
 </html>

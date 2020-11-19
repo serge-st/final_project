@@ -9,9 +9,12 @@
     /* PALLETE #1 */
 
     --blue: #120078;
-    --eggplant: #9d0191;
-    --red: #fd3a69;
-    --yellow: #fecd1a;
+    --eggplant: #9D0191;
+    --red: #FE5360;
+    --orange: #FF8D4D;
+    --yellow: #F9F871;
+    --bg-gradient: linear-gradient(to right bottom, #000000, #1d0110, #2a021f, #340033, #37004c, #3d005c, #41006e, #430080, #5c0085, #73008a, #88008e, #9d0191);
+    --bg-gradient-lighter: linear-gradient(to right bottom, #120078, #430080, #640086, #81008c, #9d0191);
 
 }   
 
@@ -23,25 +26,26 @@
 
 body {
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
-    background: #50a3a2;
+    /* background-image: var(--bg-gradient); */
+    background-image: var(--bg-gradient-lighter);
     color: white;
     font-family: "PT Sans", sans-serif;
     font-size: 16px;
 }
 
-h1 {
+/* h1 {
     margin-top: 10%;
     font-size: 3.3em;
     text-align: center;
-}
+} */
 
 @media only screen and (min-width: 360px) and (max-width: 767px) { 
-    h1 {margin-top: 15%; }
+    /* h1 {margin-top: 15%; } */
 }
   
-.container {
+.form-container {
     position: fixed;
     top: 0;
     right: 0;
@@ -50,11 +54,19 @@ h1 {
 
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
 }
 
-input, #login-button {
-    margin: 20px;
+.form-container h1 {
+    margin-bottom: 50px;
+
+    font-size: 3.3em;
+    text-align: center;
+}
+
+.form-container input, #login-button {
+    margin: 22px;
     padding: 3px;
     height: 40px;
     width: 250px;
@@ -62,9 +74,38 @@ input, #login-button {
     display: block;
 
     border: none;
+    border-radius: 3px;
+    font-family: "PT Sans", sans-serif;
     font-size: 1.5em;
-    outline: none;
+
     /* text-align: center; */
+}
+
+#login-button:hover {
+    cursor: pointer;
+}
+
+*:focus {
+    border: none;
+    outline: none;
+}
+
+input:focus {
+    box-shadow: 0 0 25px 13px var(--red);
+}
+
+
+.form-question {
+    margin: 22px;
+    font-size: 0.9em;
+}
+
+.form-question * {
+    display: inline;
+}
+
+.signup-register, .signup-register:visited {
+    color: var(--orange);
 }
 
 
