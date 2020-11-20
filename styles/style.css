@@ -15,7 +15,7 @@
     --yellow: #F9F871;
     --bg-gradient: linear-gradient(to right bottom, #000000, #1d0110, #2a021f, #340033, #37004c, #3d005c, #41006e, #430080, #5c0085, #73008a, #88008e, #9d0191);
     --bg-gradient-lighter: linear-gradient(to right bottom, #120078, #430080, #640086, #81008c, #9d0191);
-
+    --bg-gradient-btn-orange-red: linear-gradient(to left top, #ff8d4d, #ff7f4f, #ff7154, #ff6259, #fe5360);
 }   
 
 * {
@@ -70,12 +70,6 @@ body {
     border-radius: 3px;
     font-family: "PT Sans", sans-serif;
     font-size: 1.4em;
-
-    /* text-align: center; */
-}
-
-#login-button:hover {
-    cursor: pointer;
 }
 
 *:focus {
@@ -88,6 +82,19 @@ input:focus {
     transition: 0.3s;
 }
 
+#login-button {
+    background-image: var(--bg-gradient-btn-orange-red);
+    background-size: 300% 100%;
+    transition: all .4s ease-in-out;
+}
+
+#login-button:hover, #login-button:focus {
+    background-position: 100% 0;
+    box-shadow: 0 0 25px 13px var(--red);
+    cursor: pointer;
+    transition: all .4s ease-in-out;
+
+}
 
 .form-question {
     margin: 22px;
