@@ -7,4 +7,6 @@ class DB {
     private static $database;
 
     private static $mysqli = new mysqli($hostname, $user, $password, $database);
+    
+    
 }

@@ -2,7 +2,6 @@
 
 class Form {
     private $formHeading;
-    public $isRegisterType;
     public $formType;
 
     public $callToAction;
@@ -10,12 +9,10 @@ class Form {
 
     public function __construct($formType) {
         if ($formType === "register") {
-            $this->isRegisterType = true;
             $this->formType = "Register";
             $this->callToAction = "Already have an account?" . "&nbsp";
             $this->actionLink = "Login";
         } else if ($formType === "login") {
-            $this->isRegisterType = false;
             $this->formType = "Login";
             $this->callToAction = "Don't have an account?" . "&nbsp";
             $this->actionLink = "Register";
@@ -42,14 +39,14 @@ class Form {
     
         <form method="POST">
             
-            <?php if($this->isRegisterType) : ?>
+            <?php if($this->formType === "Register") : ?>
                 <input type="text" placeholder="Username" name="username">
             <?php endif; ?>
             <input type="email" placeholder="Email" name="email">
             <input type="password" placeholder="Password" name="password">
             <button id="login-button" type="submit"> <?= $this->formType ?> </button>
             <div class="form-question">
-                <p> <?= $this->callToAction ?> </p><a class="signup-register" href="#"> <?= $this->actionLink ?> </a>
+                <p> <?= $this->callToAction ?> </p><a class="signup-register" href=" <?= '/final_project/' . $this->actionLink . '.php' ?> "> <?= $this->actionLink ?> </a>
             </div>
         </form>
         </div>
