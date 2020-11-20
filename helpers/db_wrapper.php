@@ -4,10 +4,11 @@ class DB {
     private static $connection;
     
     private static function openConnection(){
-        $hostname = 'localhost:3306';
-        $user = 'root';
-        $password = '';
-        $database = 'doit_app_db';
+        $dbAccess = parse_ini_file('../config.ini');
+        $hostname = $dbAccess["mysql.host"];
+        $user = $dbAccess["mysql.user"];
+        $password = $dbAccess["mysql.password"];
+        $database = $dbAccess["mysql.db"];
         
         self::$connection = new mysqli($hostname, $user, $password, $database);
 
