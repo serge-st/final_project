@@ -79,21 +79,26 @@ body {
 
 input:focus {
     box-shadow: 0 0 25px 13px var(--red);
-    transition: 0.3s;
+    transition: .3s;
 }
 
 #login-button {
     background-image: var(--bg-gradient-btn-orange-red);
     background-size: 300% 100%;
-    transition: all .4s ease-in-out;
+    transition: all .3s ease-in-out;
 }
 
 #login-button:hover, #login-button:focus {
     background-position: 100% 0;
     box-shadow: 0 0 25px 13px var(--red);
     cursor: pointer;
-    transition: all .4s ease-in-out;
+    transition: all .3s ease-in-out;
+}
 
+#login-button:active {
+    box-shadow: 0 0 10px 5px var(--red);
+    transition: all 0.1s;
+    transform: translateY(3px);
 }
 
 .form-question {
