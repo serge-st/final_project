@@ -26,12 +26,12 @@ class RunApp {
         $form->html();
     }
 
-    public static function registerController($globalPostValiable){
-        (new RegisterController)->processRegister($globalPostValiable);
+    public static function registerController(){
+        (new RegisterController)->processRegister();
     }
 
-    public static function loginController($globalPostValiable){
-        (new LoginController)->processLogin($globalPostValiable);
+    public static function loginController(){
+        (new LoginController)->processLogin();
     }
 
     public static function logoutController(){

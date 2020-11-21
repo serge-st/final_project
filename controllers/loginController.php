@@ -14,10 +14,10 @@ class LoginController {
         $this->sessToken = parse_ini_file(__DIR__ . '/../config.ini')["session.token"];
     }
 
-    public function processLogin($globalPostVariable) {
+    public function processLogin() {
         // checking if the required fields are set:
-        if (!empty($globalPostVariable["email"]) && !empty($globalPostVariable["password"])) {
-            $email = $globalPostVariable["email"];
+        if (!empty($_POST["email"]) && !empty($_POST["password"])) {
+            $email = $_POST["email"];
 
             // Call DB to check if user exists
             $result = DB::run("SELECT `email`, `password`, `user_id` FROM `users` WHERE email='$email'")->fetch_assoc();
@@ -25,7 +25,7 @@ class LoginController {
             // Check if passwords match
             if ($result) {
                 $this->setTokens();
-                $password = hash_hmac($this->hashAlgo, $globalPostVariable["password"], $this->authToken);
+                $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             } else {
                 // remove when a better solution is complete
                 echo "user doesn't exist";
