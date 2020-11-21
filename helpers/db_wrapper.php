@@ -4,7 +4,7 @@ class DB {
     private static $connection;
     
     private static function openConnection(){
-        $dbAccess = parse_ini_file('../config.ini');
+        $dbAccess = parse_ini_file(__DIR__ . '/../config.ini');
         $hostname = $dbAccess["mysql.host"];
         $user = $dbAccess["mysql.user"];
         $password = $dbAccess["mysql.password"];
@@ -34,7 +34,8 @@ class DB {
         if (self::$connection->error){
             $error = self::$connection->error;
             self::closeConnection();
-            exit("SQL Error: " . $error);
+            // exit("SQL Error: " . $error);
+            return false;
         }
 
         self::closeConnection();

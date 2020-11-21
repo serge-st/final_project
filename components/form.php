@@ -42,7 +42,7 @@ class Form {
             <?php if($this->formType === "Register") : ?>
                 <input type="text" placeholder="Username" name="username">
             <?php endif; ?>
-            <input type="email" placeholder="Email" name="email">
+            <input type="text" placeholder="Email" name="email">
             <input type="password" placeholder="Password" name="password">
             <button id="login-button" type="submit"> <?= $this->formType ?> </button>
             <div class="form-question">

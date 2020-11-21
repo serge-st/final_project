@@ -1,5 +1,6 @@
 <?php
 require_once "./components/form.php";
+require_once "./controllers/login_register.php";
 
 class RunApp {
     public static function header(){
@@ -20,5 +21,9 @@ class RunApp {
         $form = new Form("register");
         $form->setHeading("Register&nbspIn DOIT&nbspApp");
         $form->html();
+    }
+
+    public static function loginRegisterController($globalPostValiable){
+        (new LoginRegisterController)->processRegister($globalPostValiable);
     }
 };
