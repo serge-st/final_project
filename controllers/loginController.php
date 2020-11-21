@@ -20,7 +20,7 @@ class LoginController {
             $email = $_POST["email"];
 
             // Call DB to check if user exists
-            $result = DB::run("SELECT `email`, `password`, `user_id` FROM `users` WHERE email='$email'")->fetch_assoc();
+            $result = DB::run("SELECT `password`, `user_id` FROM `users` WHERE email='$email'")->fetch_assoc();
 
             // Check if passwords match
             if ($result) {
@@ -45,9 +45,16 @@ class LoginController {
             echo "starting session";
             session_start();
             // set session tokens
-            $_SESSION["session_id"] = hash_hmac($this->hashAlgo, time(), $this->sessToken);
-            $_SESSION["user_id"] = $result["user_id"];
-            $_SESSION["startTime"] = date('Y-m-d_H:i:s');
+            $sessionId = hash_hmac($this->hashAlgo, time(), $this->sessToken);
+            $sessionStartTime = date('Y-m-d_H:i:s');
+            $userId = $result["user_id"];
+
+            $_SESSION["user_id"] = $userId;
+            $_SESSION["session_id"] = $sessionId;
+            $_SESSION["startTime"] = $sessionStartTime;
+
+            // create session record in DB
+            DB::run("INSERT into `user_sessions` VALUES ('$sessionId', '$userId')");
 
             // redirect to the main app page
             // remove when a better solution is complete

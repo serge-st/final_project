@@ -1,9 +1,10 @@
 <?php
 require_once __DIR__ . "/../components/form.php";
-require_once __DIR__ . "/../controllers/registerController.php";
-require_once __DIR__ . "/../controllers/loginController.php";
 require_once __DIR__ . "/../components/logout.php";
-require_once __DIR__ . "/../controllers/logoutController.php";
+require_once __DIR__ . "/loginController.php";
+require_once __DIR__ . "/logoutController.php";
+require_once __DIR__ . "/registerController.php";
+require_once __DIR__ . "/sessionVerifyController.php";
 
 class RunApp {
     public static function header(){
@@ -37,5 +38,9 @@ class RunApp {
     public static function logoutController(){
         (new Logout)->html();
         (new LogoutController)->logout();
+    }
+
+    public static function verifySession(){
+        (new SessionVerifier)->verify();
     }
 };

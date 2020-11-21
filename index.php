@@ -1,15 +1,7 @@
 <?php
 require_once "./controllers/app.php";
 
-session_start();
-// IF SESSION ID WAS NOT CREATED:
-// redirect
-if (empty($_SESSION["session_id"])) {
-    // querry DB for user and session
-    header("location: /final_project/login.php");
-}
-
-var_dump($_SESSION);
+RunApp::verifySession();
 
 // IF SESSION WAS CREATED LOAD APP:
 RunApp::header();
