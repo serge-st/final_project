@@ -1,8 +1,7 @@
 <?php
-
 require_once __DIR__ . "/../helpers/db_wrapper.php";
 
-class LoginRegisterController {
+class RegisterController {
     // change to private
     private $authToken;
     private $hashAlgo;
@@ -37,20 +36,9 @@ class LoginRegisterController {
             // TODO show success message (in JS or form.php);
             // TODO check if the user already exists??? (possibli query db api with fetch on input email keyup)
             // TODO create uses and redirect to login page
+        } else {
+            // TODO implement error handling
+            exit(0);
         }
     }
-
-    public function processLogin($globalPostVariable) {
-        $this->setTokens();
-        $email = $globalPostVariable["email"];
-        $username = $globalPostVariable["username"];
-        $password = $globalPostVariable["password"];
-        $passwordPeppered = hash_hmac($this->hashAlgo, $password, $this->authToken);
-        $readyToSavePWD = password_hash($passwordPeppered, PASSWORD_DEFAULT);
-        var_dump(password_verify($passwordPeppered, $readyToSavePWD));
-    }
 }
-
-// (new LoginRegisterController)->processForm($_POST);
-
-// var_dump(DB::run("select * from users")->fetch_all());

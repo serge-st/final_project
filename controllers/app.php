@@ -1,6 +1,7 @@
 <?php
 require_once "./components/form.php";
-require_once "./controllers/login_register.php";
+require_once "./controllers/registerController.php";
+require_once "./controllers/loginController.php";
 
 class RunApp {
     public static function header(){
@@ -23,7 +24,11 @@ class RunApp {
         $form->html();
     }
 
-    public static function loginRegisterController($globalPostValiable){
-        (new LoginRegisterController)->processRegister($globalPostValiable);
+    public static function registerController($globalPostValiable){
+        (new RegisterController)->processRegister($globalPostValiable);
+    }
+
+    public static function loginController($globalPostValiable){
+        (new LoginController)->processLogin($globalPostValiable);
     }
 };
