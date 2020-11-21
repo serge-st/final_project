@@ -4,4 +4,4 @@ require_once "./controllers/app.php";
 RunApp::header();
 RunApp::register();
 RunApp::footer();
-RunApp::registerController($_POST);
+RunApp::registerController();

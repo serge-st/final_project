@@ -1,6 +1,8 @@
 <?php
-require_once __DIR__ . "/../components/form.php";
+require_once __DIR__ . "/../components/doItContents.php";
 require_once __DIR__ . "/../components/logout.php";
+require_once __DIR__ . "/../components/form.php";
+require_once __DIR__ . "/doItDataController.php";
 require_once __DIR__ . "/loginController.php";
 require_once __DIR__ . "/logoutController.php";
 require_once __DIR__ . "/registerController.php";
@@ -42,5 +44,9 @@ class RunApp {
 
     public static function verifySession(){
         (new SessionVerifier)->verify();
+    }
+
+    public static function displayUserData($userId){
+        (new DoItContents($userId))->displayName();
     }
 };
