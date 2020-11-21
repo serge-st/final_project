@@ -1,7 +1,9 @@
 <?php
-require_once "./components/form.php";
-require_once "./controllers/registerController.php";
-require_once "./controllers/loginController.php";
+require_once __DIR__ . "/../components/form.php";
+require_once __DIR__ . "/../controllers/registerController.php";
+require_once __DIR__ . "/../controllers/loginController.php";
+require_once __DIR__ . "/../components/logout.php";
+require_once __DIR__ . "/../controllers/logoutController.php";
 
 class RunApp {
     public static function header(){
@@ -30,5 +32,10 @@ class RunApp {
 
     public static function loginController($globalPostValiable){
         (new LoginController)->processLogin($globalPostValiable);
+    }
+
+    public static function logoutController(){
+        (new Logout)->html();
+        (new LogoutController)->logout();
     }
 };

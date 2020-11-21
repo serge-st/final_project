@@ -24,8 +24,8 @@ class RegisterController {
             $password = hash_hmac($this->hashAlgo, $globalPostVariable["password"], $this->authToken);
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             // call to DB
-            if (DB::run("SELECT email FROM users WHERE email='$email'")->num_rows === 0){
-                DB::run("INSERT INTO `users` VALUES ('$email', '$username', '$hashedPassword', '$userId')");
+            if (DB::run("SELECT `user_id` FROM users WHERE email='$email'")->num_rows === 0){
+                DB::run("INSERT INTO `users` VALUES ('$userId', '$email', '$username', '$hashedPassword')");
                 // remove when a better solution is complete
                 header("location: /final_project/login.php");
             } else {
