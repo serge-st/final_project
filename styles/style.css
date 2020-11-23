@@ -166,6 +166,10 @@ textarea {
     display: block;
 }
 
+.completed-task {
+    text-decoration: line-through;
+}
+
 /*<========= CSS TEMPLATE =========>
 ===| Position of the element |===
 position
