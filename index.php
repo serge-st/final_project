@@ -6,10 +6,11 @@ RunApp::verifySession();
 // IF SESSION WAS CREATED LOAD APP:
 RunApp::header();
 // TODO querry user data
-RunApp::displayUserData($_SESSION["user_id"]);
-var_dump($_SESSION["user_id"]);
 // TODO display user name
+RunApp::displayUserData();
+
 // TODO display user data
+RunApp::mainSection();
 // TODO logout button
 
 // LOGOUT FUNCTIONALITY

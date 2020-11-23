@@ -1,5 +1,4 @@
 <?php
-require_once __DIR__ . "/../components/doItContents.php";
 require_once __DIR__ . "/../components/logout.php";
 require_once __DIR__ . "/../components/form.php";
 require_once __DIR__ . "/doItDataController.php";
@@ -11,6 +10,10 @@ require_once __DIR__ . "/sessionVerifyController.php";
 class RunApp {
     public static function header(){
         require_once "./components/header.php";    
+    }
+
+    public static function mainSection(){
+        require_once "./components/mainSection.php";    
     }
 
     public static function footer(){
@@ -46,7 +49,7 @@ class RunApp {
         (new SessionVerifier)->verify();
     }
 
-    public static function displayUserData($userId){
-        (new DoItContents($userId))->displayName();
+    public static function displayUserData(){
+        (new DoItContents)->displayName();
     }
 };

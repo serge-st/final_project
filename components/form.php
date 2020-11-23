@@ -44,7 +44,7 @@ class Form {
             <?php endif; ?>
             <input type="text" placeholder="Email" name="email">
             <input type="password" placeholder="Password" name="password">
-            <button id="login-button" type="submit"> <?= $this->formType ?> </button>
+            <button id="login-button" type="submit"  class="btn"> <?= $this->formType ?> </button>
             <div class="form-question">
                 <p> <?= $this->callToAction ?> </p><a class="signup-register" href=" <?= '/final_project/' . $this->actionLink . '.php' ?> "> <?= $this->actionLink ?> </a>
             </div>
