@@ -49,9 +49,9 @@ document.addEventListener("DOMContentLoaded", () => {
             return `
             <tr>
                 <td> <input type="checkbox"> </td>
-                <td>${task.description}</td>
-                <td> <button class="btn edit-btn"><i class="fas fa-edit"></i></button> </td>
-                <td> <button class="btn delete-btn"><i class="fas fa-trash"></i></button> </td>
+                <td class="td-description"> ${task.description} <hr class="td-hr"> </td>
+                <td class="td-btn"> <button class="btn edit-btn"> <i class="fas fa-edit"></i> </button> </td>
+                <td class="td-btn"> <button class="btn delete-btn"> <i class="fas fa-trash"></i> </button> </td>
             </tr>
             `;
         }).join("");
@@ -59,8 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
         tableComplete.innerHTML = completeTasks.map( task => {
             return `
             <tr>
-                <td class="completed-task">${task.description}</td>
-                <td> <button class="btn">Delete</button> </td>
+                <td> <input type="checkbox"> </td>
+                <td class="td-description completed-task"> ${task.description} <hr class="td-hr"> </td>
+                <td class="td-btn"> <button class="btn big-delete-btn"> Delete </button> </td>
             </tr>
             `;
         }).join("");

@@ -39,10 +39,6 @@ body {
     font-size: 16px;
 }
 
-@media only screen and (min-width: 360px) and (max-width: 767px) { 
-    /* h1 {margin-top: 15%; } */
-}
-
 /* Login and register form container */
 .form-container {
     position: fixed;
@@ -150,8 +146,8 @@ body {
     left: 0;
 
     margin: 0 auto;
+    /* min-width: 320px; */
     width: 45%;
-    min-width: 320px;
 
     display: flex;
     align-items: center;
@@ -161,14 +157,14 @@ body {
 
 /* Hello <username> heading on the main page */
 #session-heading {
-    margin: 0 0 10px;
+    margin: 0 0 25px;
     font-size: 2.3em;
     text-align: center;
 }
 
 /* Contains task counter and encouragement */
 .counter-section {
-    margin: 0 0 15px;
+    margin: 0 0 25px;
 
     display: flex;
     justify-content: space-between;
@@ -200,7 +196,7 @@ body {
 
 /* New task form */
 .new-task-form {
-    margin: 0 0 10px;
+    margin: 0 0 25px;
 
     display: flex;
     justify-content: space-between;
@@ -227,11 +223,47 @@ input[name="taskInput"]:focus {
 }
 
 /* Table for tasks */
-table { 
-    border-collapse:collapse 
+table {
+    border-collapse:separate; 
+    border-spacing: 0 2px;
+}
+
+/* Underline for td with description */
+.td-description {
+    padding-right: 2px;
+    width: 279px;
+}
+
+.td-hr{
+    position: relative;
+    top: 3px;
+
+    margin: 0;
+    border: 0;
+    border-bottom:1px solid white;
+}
+
+/* Padding for edit/delete buttons */
+.td-btn {
+    padding-left: 2px;
+}
+
+.big-delete-btn {
+    width: 71px;
+}
+
+.wide-btn {
+    width: 72px;
 }
 
 /* Tasks' checkboxes */
+input[type="checkbox"] {
+    position: relative;
+    top: 1px;
+
+    margin-right: 3px;
+}
+
 input[type="checkbox"]:hover {
     box-shadow: 0 0 7px 3px var(--red);
     transition: .3s;
@@ -245,8 +277,12 @@ input[type="checkbox"]:hover {
 
 /* Edit/Delete icons */
 .fa-edit, .fa-trash {
+    height: 13px;
+    width: 13px;
     color: white;
 }
+
+
 
 /* Logout form */
 .logout-form {
@@ -255,6 +291,17 @@ input[type="checkbox"]:hover {
     flex-direction: row-reverse;
 }
 
+/* iPhone 5/SE setting */
+@media only screen and (max-width: 321px) { 
+    .app-container {
+        padding: 0 5px;
+        
+    }
+
+    table * {
+        font-size: 13px;
+    }
+}
 
 /*<========= CSS TEMPLATE =========>
 ===| Position of the element |===

@@ -6,7 +6,7 @@ class Logout {
         ?>
             <form method="POST" class="logout-form">
                 <input type="hidden" name="logout">
-                <button type="submit" class="btn">Logout</button>
+                <button type="submit" class="btn wide-btn">Logout</button>
             </form>
         <?php
     }
