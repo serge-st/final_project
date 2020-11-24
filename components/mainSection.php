@@ -8,7 +8,7 @@
 <h4 class="add-new-task-heading">Add A New Task:</h4>
 
 <form method="POST" class="new-task-form">
-    <input type="text" placeholder="Enter The New Task"></input>
+    <input type="text" placeholder="Enter The New Task Here" maxlength="40" name="taskInput"></input>
     <button type="submit" class="btn">Update</button>
 </form>
 
