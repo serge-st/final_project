@@ -2,38 +2,61 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const baseURL = "/final_project/api";
     const testAPI = "/test_api.php?user_id=";
+    console.group("API URL:");
+    console.log("user_id: ", "< userId_goes_here >");
+    console.log("API URL: ", `${baseURL}${testAPI}< userId_goes_here >`);
+    console.groupEnd();
     
-    // FIELDS THAT ARE GOING TO BE MODIFIED:
+
+    // CHECK IF THE USER LOGGED IN
     if (!document.getElementById("session-heading")){
         return "";
     }
     
+    // FIELDS THAT ARE GOING TO BE MODIFIED:
     const userId = document.getElementById("session-heading").getAttribute('user-id');
     const taskNumber = document.getElementById("task-number");
     const encourage = document.getElementById("encourage");
-    const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
-    // const encourageText = ["Let's do some work", "Time to rest"];
     const tableIncomplete = document.getElementById("user-tasks");
     const tableComplete = document.getElementById("user-completed-tasks");
-    console.group("Testing info:");
-    console.log("user_id: ", userId);
-    console.log("API URL: ", `${baseURL}${testAPI}${userId}`);
-    console.groupEnd();
+    
+    // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
+    const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
+    
 
     getUserData()
     .catch(err => console.error(err));
 
+    const saveButton = document.getElementById('task-form-btn');
+    saveButton.addEventListener("click", event => {
+        event.preventDefault();
+        console.log("click");
+    })
+    
+
+
 
     // FUNCTION TO GET DATA FROM THE API
     async function getUserData() {
+        // Call the API
         const response = await fetch(`${baseURL}${testAPI}${userId}`);
+
+        // Parse incoming JSON
         const apiData = await response.json();
+
+        // Separate all incoming tasks into incompleted tasks:
         incompleteTasks = apiData.filter( task => !Number(task.is_completed));
+
+        // And completed tasks
         completeTasks = apiData.filter( task => Number(task.is_completed));
-        // apiData.forEach( task => console.log("compl: ",task.is_completed));
+
+        // Display remaining task number in the "Task Counter"
         taskNumber.innerText = incompleteTasks.length;
+
+        // Display the encouragment text
         incompleteTasks.length ? encourage.innerText = encourageText[0] : encourage.innerText = encourageText[1];
 
+        // FOR TESTING PURPOSES
         console.group("Grouping tasks to complete and not:");
         console.log("incomplete:")
         console.log(incompleteTasks);
@@ -41,10 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(completeTasks);
         console.groupEnd();
 
-        incompleteTasks.forEach( task => console.log(`<tr>${task.description}</tr>`));
-
-        console.log(tableIncomplete);
-
+        // Populate incompleted task table with data
         tableIncomplete.innerHTML = incompleteTasks.map( task => {
             return `
             <tr>
@@ -56,15 +76,20 @@ document.addEventListener("DOMContentLoaded", () => {
             `;
         }).join("");
 
+        // Populate completed task table with data
         tableComplete.innerHTML = completeTasks.map( task => {
             return `
             <tr>
-                <td> <input type="checkbox"> </td>
+                <td> <input type="checkbox" class="checkbox-completed"> </td>
                 <td class="td-description completed-task"> ${task.description} <hr class="td-hr"> </td>
                 <td class="td-btn"> <button class="btn big-delete-btn"> Delete </button> </td>
             </tr>
             `;
         }).join("");
+
+        // Get all checkboxes from the complete table and set checed status to true
+        const completedCheckboxes = document.querySelectorAll(".checkbox-completed");
+        Object.values(completedCheckboxes).forEach( checkBox => checkBox.checked = true);
     }
 
 

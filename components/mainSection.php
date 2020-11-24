@@ -9,7 +9,7 @@
 
 <form method="POST" class="new-task-form">
     <input type="text" placeholder="Enter The New Task Here" maxlength="40" name="taskInput"></input>
-    <button type="submit" class="btn wide-btn">Update</button>
+    <button type="submit" class="btn wide-btn" id="task-form-btn">Save</button>
 </form>
 
 <table>
