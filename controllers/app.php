@@ -45,11 +45,11 @@ class RunApp {
         (new LogoutController)->logout();
     }
 
-    public static function verifySession(){
+    public static function sessionVerifyController(){
         (new SessionVerifier)->verify();
     }
 
-    public static function displayUserData(){
+    public static function doItDataController(){
         (new DoItContents)->displayName();
     }
 };

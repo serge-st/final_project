@@ -1,14 +1,15 @@
 <?php
 
 ?>
-<p id="encourage"></p>
-<p id="task-counter-text">Task Counter:&nbsp<span id="task-number"></span></p>
+<div class="counter-section">
+    <p id="task-counter-text">Task Counter:&nbsp<span id="task-number"></span></p> <p id="encourage"></p>
+</div>
 
-<h4>Add A New Task:</h4>
+<h4 class="add-new-task-heading">Add A New Task:</h4>
 
-<form method="POST">
-    <textarea placeholder="Enter The New Task"></textarea>
-    <button type="submit" class="btn">Save</button>
+<form method="POST" class="new-task-form">
+    <input type="text" placeholder="Enter The New Task"></input>
+    <button type="submit" class="btn">Update</button>
 </form>
 
 <table>

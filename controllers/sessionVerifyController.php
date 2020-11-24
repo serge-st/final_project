@@ -21,5 +21,7 @@ class SessionVerifier {
             header("location: /final_project/login.php");
             exit(0);
         }
+
+        // IF THE SESSION ID IS CORRECT REDIRECT TO MAIN PAGE
     }
 }

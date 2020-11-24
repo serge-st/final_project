@@ -77,20 +77,27 @@ body {
     outline: none;
 }
 
-input:focus {
+.form-container input:focus {
     box-shadow: 0 0 25px 13px var(--red);
     transition: .3s;
 }
 
+#login-button:hover {
+    box-shadow: 0 0 25px 13px var(--red);
+}
+
 .btn {
+    border: none;
+    padding: .4em .8em;
     background-image: var(--bg-gradient-btn-orange-red);
     background-size: 300% 100%;
+    font-family: "PT Sans", sans-serif;
     transition: all .3s ease-in-out;
 }
 
 .btn:hover, .btn:focus {
     background-position: 100% 0;
-    box-shadow: 0 0 25px 13px var(--red);
+    box-shadow: 0 0 7px 3px var(--red);
     cursor: pointer;
     transition: all .3s ease-in-out;
 }
@@ -131,6 +138,7 @@ input:focus {
     justify-content: center;
 }
 
+/* Hello <username> heading on the main page */
 #session-heading {
     margin: 0 0 10px;
     
@@ -138,10 +146,22 @@ input:focus {
     text-align: center;
 }
 
-#encourage {
+/* Contains task counter and encouragement */
+.counter-section {
     margin: 0 0 25px;
 
-    text-align: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.counter-section * {
+    display: inline-block;
+}
+
+#encourage {
+    position: relative;
+    top: 3px;
+    margin: 0 0 25px;
 }
 
 #task-counter-text {
@@ -153,22 +173,32 @@ input:focus {
     top: 1px;
 
     color: var(--red);
-    font-size: 1.3em;
+    font-size: 1.2em;
     font-weight: bolder;
 }
 
-h4 {
+.add-new-task-heading {
     margin: 0 0 10px;
 
 }
 
-textarea {
-    display: block;
+.new-task-form {
+    display: flex;
+    justify-content: space-between;
+}
+
+table { 
+    border-collapse:collapse 
 }
 
 .completed-task {
     text-decoration: line-through;
 }
+
+.fa-edit, .fa-trash {
+    color: white;
+}
+
 
 /*<========= CSS TEMPLATE =========>
 ===| Position of the element |===

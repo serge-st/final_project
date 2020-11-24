@@ -1,13 +1,13 @@
 <?php
 require_once "./controllers/app.php";
 
-RunApp::verifySession();
+RunApp::sessionVerifyController();
 
 // IF SESSION WAS CREATED LOAD APP:
 RunApp::header();
 // TODO querry user data
 // TODO display user name
-RunApp::displayUserData();
+RunApp::doItDataController();
 
 // TODO display user data
 RunApp::mainSection();
