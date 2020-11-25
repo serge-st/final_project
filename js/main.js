@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const baseURL = "/final_project/api";
     const testAPI = "/test_api.php?user_id=";
+    const saveTaskAPI = "/saveTask.php";
     console.group("API URL:");
     console.log("user_id: ", "< userId_goes_here >");
     console.log("API URL: ", `${baseURL}${testAPI}< userId_goes_here >`);
@@ -15,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // FIELDS THAT ARE GOING TO BE MODIFIED:
     const userId = document.getElementById("session-heading").getAttribute('user-id');
+    const taskInput = document.getElementById('task-input-form');
     const taskNumber = document.getElementById("task-number");
     const encourage = document.getElementById("encourage");
     const tableIncomplete = document.getElementById("user-tasks");
@@ -23,17 +25,38 @@ document.addEventListener("DOMContentLoaded", () => {
     // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
     const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
     
-
+    // Get data for the current user and update all the elements
     getUserData()
     .catch(err => console.error(err));
 
     const saveButton = document.getElementById('task-form-btn');
     saveButton.addEventListener("click", event => {
         event.preventDefault();
-        console.log("click");
-    })
+        callSave(userId);
+    });
     
+    function callSave(userId) {
+        const formData = {
+            user_id: userId,
+            description: taskInput.value
+        };
 
+        taskInput.value = "";
+
+        // implement error handling
+        if (formData.description.length === 0) return;
+
+        fetch("/final_project/api/saveTask.php", {
+            method: 'POST',
+            body: JSON.stringify(formData)
+        })
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+        // then implement error handling
+        
+        getUserData()
+        .catch(err => console.error(err));
+    }
 
 
     // FUNCTION TO GET DATA FROM THE API
