@@ -7,10 +7,14 @@
 
 <h4 class="add-new-task-heading">Add A New Task:</h4>
 
-<form method="POST" class="new-task-form">
-    <input type="text" placeholder="Enter The New Task Here" maxlength="40" name="taskInput" id="task-input-form"></input>
+<!-- <form method="POST" class="new-task-form">
+    <input type="text" placeholder="Enter The New Task Here" maxlength="40" name="taskInput" id="task-input-form" taskId></input>
     <button type="submit" class="btn wide-btn" id="task-form-btn">Save</button>
-</form>
+</form> -->
+<div class="new-task-form">
+    <input type="text" placeholder="Enter The New Task Here" maxlength="40" name="taskInput" id="task-input-form" taskId></input>
+    <button class="btn wide-btn" id="task-form-btn">Save</button>
+</div>
 
 <table>
     <tbody id="user-tasks"></tbody>

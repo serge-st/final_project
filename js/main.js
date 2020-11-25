@@ -3,6 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const baseURL = "/final_project/api";
     const testAPI = "/test_api.php?user_id=";
     const saveTaskAPI = "/saveTask.php";
+    const deleteTaskAPI = "/deleteTask.php";
+    const updateTaskAPI = "/updateTask.php";
+
     console.group("API URL:");
     console.log("user_id: ", "< userId_goes_here >");
     console.log("API URL: ", `${baseURL}${testAPI}< userId_goes_here >`);
@@ -13,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!document.getElementById("session-heading")){
         return "";
     }
-    
+
     // FIELDS THAT ARE GOING TO BE MODIFIED:
     const userId = document.getElementById("session-heading").getAttribute('user-id');
     const taskInput = document.getElementById('task-input-form');
@@ -21,6 +24,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const encourage = document.getElementById("encourage");
     const tableIncomplete = document.getElementById("user-tasks");
     const tableComplete = document.getElementById("user-completed-tasks");
+    const saveButton = document.getElementById('task-form-btn');
+
+    // if value.length is 0 change name to save and remove taskid attribute
+    taskInput.addEventListener("input", () => console.log('task input field character amount: ', taskInput.value.length));
+
+    // LISTEN TO CHANGES IN ATTRIBUTE
+    const observer = new MutationObserver( mutations => {
+        mutations.forEach( mutation => {
+            console.log(mutation)
+            if (mutation.type === "attributes" && mutation.attributeName === "taskid") {
+            console.log("attributes changed");
+            saveButton.removeEventListener("click", () => callSave(userId));
+            saveButton.innerText = "Update";
+            }
+        });
+        });
+    
+    // Observer listening to atribute changes in taskInput const
+    observer.observe(taskInput, {
+        attributes: true
+    });
     
     // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
     const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
@@ -29,11 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
     getUserData()
     .catch(err => console.error(err));
 
-    const saveButton = document.getElementById('task-form-btn');
-    saveButton.addEventListener("click", event => {
-        event.preventDefault();
-        callSave(userId);
-    });
+    saveButton.addEventListener("click", () => callSave(userId));
     
     function callSave(userId) {
         const formData = {
@@ -46,16 +66,46 @@ document.addEventListener("DOMContentLoaded", () => {
         // implement error handling
         if (formData.description.length === 0) return;
 
-        fetch("/final_project/api/saveTask.php", {
+        fetch(`${baseURL}${saveTaskAPI}`, {
             method: 'POST',
             body: JSON.stringify(formData)
         })
-        .then(response => console.log(response))
+        .then(response => {
+            getUserData();
+            console.log(response);
+        })
         .catch(err => console.error(err));
         // then implement error handling
         
-        getUserData()
+        
+        // .catch(err => console.error(err));
+    }
+
+    function callDelete(id) {
+        // implement error handling
+
+        fetch(`${baseURL}${deleteTaskAPI}`, {
+            method: 'POST',
+            body: JSON.stringify({id: id})
+        })
+               .then(response => {
+            getUserData();
+            console.log(response);
+        })
         .catch(err => console.error(err));
+    }
+
+    async function callUpdate(id) {
+        // maybe will need to use MutationObserver
+        const taskInput = document.getElementById("task-input-form");
+        taskInput.setAttribute("taskId", id);
+        
+        const response = await fetch(`${baseURL}${updateTaskAPI}?id=${id}`);
+        
+        const [taskData] = await response.json();
+        
+        taskInput.value = taskData.description;
+        console.log(taskData);
     }
 
 
@@ -93,8 +143,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <tr>
                 <td> <input type="checkbox"> </td>
                 <td class="td-description"> ${task.description} <hr class="td-hr"> </td>
-                <td class="td-btn"> <button class="btn edit-btn"> <i class="fas fa-edit"></i> </button> </td>
-                <td class="td-btn"> <button class="btn delete-btn"> <i class="fas fa-trash"></i> </button> </td>
+                <td class="td-btn"> <button class="btn edit-btn" buttonId="${task.id}"> <i class="fas fa-edit"></i> </button> </td>
+                <td class="td-btn"> <button class="btn delete-btn delete" buttonId="${task.id}"> <i class="fas fa-trash"></i> </button> </td>
             </tr>
             `;
         }).join("");
@@ -105,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <tr>
                 <td> <input type="checkbox" class="checkbox-completed"> </td>
                 <td class="td-description completed-task"> ${task.description} <hr class="td-hr"> </td>
-                <td class="td-btn"> <button class="btn big-delete-btn"> Delete </button> </td>
+                <td class="td-btn"> <button class="btn big-delete-btn delete" buttonId="${task.id}"> Delete </button> </td>
             </tr>
             `;
         }).join("");
@@ -113,6 +163,21 @@ document.addEventListener("DOMContentLoaded", () => {
         // Get all checkboxes from the complete table and set checed status to true
         const completedCheckboxes = document.querySelectorAll(".checkbox-completed");
         Object.values(completedCheckboxes).forEach( checkBox => checkBox.checked = true);
+
+        // Add DELETE event listeners
+        const deleteButtons = document.querySelectorAll(".delete");
+        Object.values(deleteButtons).forEach( button => button.addEventListener("click", () =>  {
+            callDelete(button.getAttribute("buttonId"));
+            getUserData()
+            .catch(err => console.error(err));
+        }));
+
+        // Add EDIT event listeners
+        const editButtons = document.querySelectorAll(".edit-btn");
+        Object.values(editButtons).forEach( button => button.addEventListener("click", () => {
+            callUpdate(button.getAttribute("buttonId"));
+        }));
+
     }
 
 
