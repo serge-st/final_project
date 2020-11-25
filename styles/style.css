@@ -126,9 +126,12 @@ body {
 
 .btn:hover, .btn:focus {
     background-position: 100% 0;
-    box-shadow: 0 0 7px 3px var(--red);
     cursor: pointer;
     transition: all .3s ease-in-out;
+}
+
+.btn:hover {
+    box-shadow: 0 0 7px 3px var(--red);
 }
 
 .btn:active {
