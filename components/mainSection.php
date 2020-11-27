@@ -13,7 +13,7 @@
 </form> -->
 <div class="new-task-form">
     <input type="text" placeholder="Enter The New Task Here" maxlength="40" name="taskInput" id="task-input-form" taskId></input>
-    <button class="btn wide-btn" id="task-form-btn">Save</button>
+    <button class="btn wide-btn" id="task-form-btn" callAPI="Save">Save</button>
 </div>
 
 <table>

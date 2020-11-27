@@ -27,26 +27,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveButton = document.getElementById('task-form-btn');
     
     // if value.length is 0 change name to save and remove taskid attribute
-    taskInput.addEventListener("input", () => console.log('task input field character amount: ', taskInput.value.length));
+    taskInput.addEventListener("input", () => {
+        console.log('task input field character amount: ', taskInput.value.length);
+        if (taskInput.value.length === 0) {
+            taskInput.setAttribute("taskid", "");  
+        } 
+        });
 
     
     // SAVE / UPDATE BUTTONS EVENT LISTENERS
-    // saveButton.addEventListener("click", () => callSave(userId));
-    saveButton.addEventListener("click", () => console.log("save clicked"));
+    saveButton.addEventListener("click", () => {
+        if (saveButton.getAttribute("callAPI") === "Save") {
+            console.log('saving');
+            callSave(userId);
+        } else if (saveButton.getAttribute("callAPI") === "Update") {
+            console.log('updating');
+        } else {
+            console.error(new Error("Something went wrong"));
+        }
+        
+    });
     
     // LISTEN TO CHANGES IN ATTRIBUTE
     const observer = new MutationObserver( mutations => {
         mutations.forEach( mutation => {
-            console.log(mutation)
             if (mutation.type === "attributes" && mutation.attributeName === "taskid") {
-            console.log("mutation triggered");
-            
-            const updateButton = document.getElementById('task-form-btn');
-            saveButton.innerText = "Update";
-            saveButton.replaceWith(updateButton);
-
-            updateButton.addEventListener("click", () => console.log("update clicked"));
-
+                console.log("mutation triggered");
+                
+                if (!!taskInput.getAttribute("taskid")){
+                    saveButton.innerText = "Update";
+                    saveButton.setAttribute("callAPI", "Update");
+                } else {
+                    saveButton.innerText = "Save";
+                    saveButton.setAttribute("callAPI", "Save");
+                }
             }
         });
         });
@@ -62,6 +76,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get data for the current user and update all the elements
     getUserData()
     .catch(err => console.error(err));
+
+    // SAVE FUNCTIONALITY
     function callSave(userId) {
         const formData = {
             user_id: userId,
@@ -88,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // .catch(err => console.error(err));
     }
 
+    // DELETE FUNCTIONALITY
     function callDelete(id) {
         // implement error handling
 
@@ -102,30 +119,15 @@ document.addEventListener("DOMContentLoaded", () => {
         .catch(err => console.error(err));
     }
 
-    async function callUpdate(taskDetails) {
+    // UPDATE FUNCTIONALITY
+    async function callUpdate(id) {
         // maybe will need to use MutationObserver
-        
-        // if the parameter is Object handle checkbox update, elese handle task update
-        if (taskDetails instanceof Object){
-            // handling checkboxes
-            fetch(`${baseURL}${updateTaskAPI}`, {
-                method: 'POST',
-                body: JSON.stringify(taskDetails)
-            })
-            .then(response => {
-                console.log(response);
-                // then re-render the page contents
-                getUserData()
-                .catch(err => console.error(err));
-            })
-            .catch(err => console.error(err));
-            return;
-        }
-        // handling input form
+
+        // handling task description update
         const taskInput = document.getElementById("task-input-form");
-        taskInput.setAttribute("taskId", taskDetails);
+        taskInput.setAttribute("taskId", id);
         
-        const response = await fetch(`${baseURL}${updateTaskAPI}?id=${taskDetails}`);
+        const response = await fetch(`${baseURL}${updateTaskAPI}?id=${id}`);
         
         const [taskData] = await response.json();
         
@@ -133,6 +135,24 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log(taskData);
 
     }
+
+    // CHECKBOX FUNCTIONNALITY
+
+    function handleCheckbox(taskStatus){
+        fetch(`${baseURL}${updateTaskAPI}`, {
+            method: 'POST',
+            body: JSON.stringify(taskStatus)
+        })
+        .then(response => {
+            console.log(response);
+            // then re-render the page contents
+            getUserData()
+            .catch(err => console.error(err));
+        })
+        .catch(err => console.error(err));
+    }
+
+       
 
 
     // FUNCTION TO GET DATA FROM THE API
@@ -212,7 +232,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
             
             //calling update
-            callUpdate(taskStatus);
+            handleCheckbox(taskStatus);
             
         }));
 
