@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const saveTaskAPI = "/saveTask.php";
     const deleteTaskAPI = "/deleteTask.php";
     const updateTaskAPI = "/updateTask.php";
+    const completeTaskAPI = "/completeTask.php";
 
     console.group("API URL:");
     console.log("user_id: ", "< userId_goes_here >");
@@ -37,15 +38,17 @@ document.addEventListener("DOMContentLoaded", () => {
     
     // SAVE / UPDATE BUTTONS EVENT LISTENERS
     saveButton.addEventListener("click", () => {
-        if (saveButton.getAttribute("callAPI") === "Save") {
-            console.log('saving');
-            callSave(userId);
-        } else if (saveButton.getAttribute("callAPI") === "Update") {
-            console.log('updating');
-        } else {
-            console.error(new Error("Something went wrong"));
-        }
+        // OLD STUFF
+        // if (saveButton.getAttribute("callAPI") === "Save") {
+        //     console.log('saving');
+        //     callSave(userId);
+        // } else if (saveButton.getAttribute("callAPI") === "Update") {
+        //     console.log('updating');
+        // } else {
+        //     console.error(new Error("Something went wrong"));
+        // }
         
+        callSave(userId);
     });
     
     // LISTEN TO CHANGES IN ATTRIBUTE
@@ -80,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // SAVE FUNCTIONALITY
     function callSave(userId) {
         const formData = {
+            id: taskInput.getAttribute("taskid"),
             user_id: userId,
             description: taskInput.value
         };
@@ -101,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
         // then implement error handling
         
         
-        // .catch(err => console.error(err));
     }
 
     // DELETE FUNCTIONALITY
@@ -121,8 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // UPDATE FUNCTIONALITY
     async function callUpdate(id) {
-        // maybe will need to use MutationObserver
-
         // handling task description update
         const taskInput = document.getElementById("task-input-form");
         taskInput.setAttribute("taskId", id);
@@ -137,9 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // CHECKBOX FUNCTIONNALITY
-
     function handleCheckbox(taskStatus){
-        fetch(`${baseURL}${updateTaskAPI}`, {
+        fetch(`${baseURL}${completeTaskAPI}`, {
             method: 'POST',
             body: JSON.stringify(taskStatus)
         })
