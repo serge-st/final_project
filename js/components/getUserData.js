@@ -1,4 +1,5 @@
 import {callDelete} from "./callDelete.js";
+import {callEdit} from "./callEdit.js";
 
 export async function getUserData(userId) {
     const baseURL = "/final_project/api";

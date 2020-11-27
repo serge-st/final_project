@@ -95,19 +95,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    // UPDATE FUNCTIONALITY
-    async function callEdit(id) {
-        const taskInput = document.getElementById("task-input-form");
+    // // UPDATE FUNCTIONALITY
+    // async function callEdit(id) {
+    //     const taskInput = document.getElementById("task-input-form");
         
-        taskInput.setAttribute("taskId", id);
+    //     taskInput.setAttribute("taskId", id);
         
-        const response = await fetch(`${baseURL}${editTaskAPI}${id}`);
+    //     const response = await fetch(`${baseURL}${editTaskAPI}${id}`);
         
-        const [taskData] = await response.json();
+    //     const [taskData] = await response.json();
         
-        taskInput.value = taskData.description;
-        taskInput.focus();
-    }
+    //     taskInput.value = taskData.description;
+    //     taskInput.focus();
+    // }
 
     // CHECKBOX FUNCTIONNALITY
     function handleCheckbox(taskStatus){
