@@ -1,7 +1,9 @@
 import {callDelete} from "./callDelete.js";
 import {callEdit} from "./callEdit.js";
+import {handleCheckbox} from "./handleCheckbox.js";
 
-export async function getUserData(userId) {
+export async function getUserData() {
+    const userId = document.getElementById("session-heading").getAttribute('user-id');
     const baseURL = "/final_project/api";
     const getUserDataAPI = "/getUserData.php?user_id=";
 

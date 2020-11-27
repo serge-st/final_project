@@ -1,12 +1,12 @@
 import {getUserData} from "./getUserData.js";
 
-export function callDelete(id) {
+export function handleCheckbox(taskStatus){
     const baseURL = "/final_project/api";
-    const deleteTaskAPI = "/deleteTask.php";
+    const handleCheckboxAPI = "/handleCheckbox.php";
 
-    fetch(`${baseURL}${deleteTaskAPI}`, {
+    fetch(`${baseURL}${handleCheckboxAPI}`, {
         method: 'POST',
-        body: JSON.stringify({id: id})
+        body: JSON.stringify(taskStatus)
     })
     .then( () => getUserData())
     .catch(err => console.error(err));

@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
 
     // Get data for the current user and update all the elements
-    getUserData(userId)
+    getUserData()
     .catch(err => console.error(err));
 
     // if value.length is 0 change name to save and remove taskid attribute
@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(formData)
         })
         .then( () => {
-            getUserData(userId);
+            getUserData();
         })
         .catch(err => console.error(err));
     }
@@ -110,17 +110,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // }
 
     // CHECKBOX FUNCTIONNALITY
-    function handleCheckbox(taskStatus){
-        fetch(`${baseURL}${completeTaskAPI}`, {
-            method: 'POST',
-            body: JSON.stringify(taskStatus)
-        })
-        .then( () => {
-            // then re-render the page contents
-            getUserData(userId);
-        })
-        .catch(err => console.error(err));
-    }
+    // function handleCheckbox(taskStatus){
+    //     fetch(`${baseURL}${completeTaskAPI}`, {
+    //         method: 'POST',
+    //         body: JSON.stringify(taskStatus)
+    //     })
+    //     .then( () => {
+    //         // then re-render the page contents
+    //         getUserData(userId);
+    //     })
+    //     .catch(err => console.error(err));
+    // }
 
     // DELETE FUNCTIONALITY
     // function callDelete(id) {
