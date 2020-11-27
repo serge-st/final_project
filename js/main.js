@@ -1,4 +1,7 @@
+import {getUserData} from "./components/getUserData.js";
+
 document.addEventListener("DOMContentLoaded", () => {
+
     
     const baseURL = "/final_project/api";
     const getUserDataAPI = "/getUserData.php?user_id=";
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
 
     // Get data for the current user and update all the elements
-    getUserData()
+    getUserData(userId)
     .catch(err => console.error(err));
 
     // if value.length is 0 change name to save and remove taskid attribute
@@ -85,23 +88,12 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(formData)
         })
         .then( () => {
-            getUserData();
+            getUserData(userId);
         })
         .catch(err => console.error(err));
     }
 
-    // DELETE FUNCTIONALITY
-    function callDelete(id) {
-        // implement error handling
-        fetch(`${baseURL}${deleteTaskAPI}`, {
-            method: 'POST',
-            body: JSON.stringify({id: id})
-        })
-        .then( () => {
-            getUserData();
-        })
-        .catch(err => console.error(err));
-    }
+
 
     // UPDATE FUNCTIONALITY
     async function callEdit(id) {
@@ -125,95 +117,106 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then( () => {
             // then re-render the page contents
-            getUserData();
+            getUserData(userId);
         })
         .catch(err => console.error(err));
     }
 
-       
+    // DELETE FUNCTIONALITY
+    // function callDelete(id) {
+    //     // implement error handling
+    //     fetch(`${baseURL}${deleteTaskAPI}`, {
+    //         method: 'POST',
+    //         body: JSON.stringify({id: id})
+    //     })
+    //     .then( () => {
+    //         getUserData(userId);
+    //     })
+    //     .catch(err => console.error(err));
+    // }
 
 
     // FUNCTION TO GET DATA FROM THE API
-    async function getUserData() {
-        // Call the API
-        const response = await fetch(`${baseURL}${getUserDataAPI}${userId}`);
+    // async function getUserData() {
+    //     // Call the API
+    //     const response = await fetch(`${baseURL}${getUserDataAPI}${userId}`);
 
-        // Parse incoming JSON
-        const apiData = await response.json();
+    //     // Parse incoming JSON
+    //     const apiData = await response.json();
 
-        // Separate all incoming tasks into incompleted tasks:
-        incompleteTasks = apiData.filter( task => !Number(task.is_completed));
+    //     // Separate all incoming tasks into incompleted tasks:
+    //     const incompleteTasks = apiData.filter( task => !Number(task.is_completed));
 
-        // And completed tasks
-        completeTasks = apiData.filter( task => Number(task.is_completed));
+    //     // And completed tasks
+    //     const completeTasks = apiData.filter( task => Number(task.is_completed));
 
-        // Display remaining task number in the "Task Counter"
-        taskNumber.innerText = incompleteTasks.length;
+    //     // Display remaining task number in the "Task Counter"
+    //     taskNumber.innerText = incompleteTasks.length;
 
-        // Display the encouragment text
-        incompleteTasks.length ? encourage.innerText = encourageText[0] : encourage.innerText = encourageText[1];
+    //     // Display the encouragment text
+    //     incompleteTasks.length ? encourage.innerText = encourageText[0] : encourage.innerText = encourageText[1];
 
-        // FOR TESTING PURPOSES
-        console.group("Grouping tasks to complete and not:");
-        console.log("incomplete:")
-        console.log(incompleteTasks);
-        console.log("complete:")
-        console.log(completeTasks);
-        console.groupEnd();
+    //     // FOR TESTING PURPOSES
+    //     // console.group("Grouping tasks to complete and not:");
+    //     // console.log("incomplete:")
+    //     // console.log(incompleteTasks);
+    //     // console.log("complete:")
+    //     // console.log(completeTasks);
+    //     // console.groupEnd();
 
-        // Populate incompleted task table with data
-        tableIncomplete.innerHTML = incompleteTasks.map( task => {
-            return `
-            <tr>
-                <td> <input type="checkbox" checkboxId="${task.id}"> </td>
-                <td class="td-description"> ${task.description} <hr class="td-hr"> </td>
-                <td class="td-btn"> <button class="btn edit-btn" buttonId="${task.id}"> <i class="fas fa-edit"></i> </button> </td>
-                <td class="td-btn"> <button class="btn delete-btn delete" buttonId="${task.id}"> <i class="fas fa-trash"></i> </button> </td>
-            </tr>
-            `;
-        }).join("");
+    //     // Populate incompleted task table with data
+    //     tableIncomplete.innerHTML = incompleteTasks.map( task => {
+    //         return `
+    //         <tr>
+    //             <td> <input type="checkbox" checkboxId="${task.id}"> </td>
+    //             <td class="td-description"> ${task.description} <hr class="td-hr"> </td>
+    //             <td class="td-btn"> <button class="btn edit-btn" buttonId="${task.id}"> <i class="fas fa-edit"></i> </button> </td>
+    //             <td class="td-btn"> <button class="btn delete-btn delete" buttonId="${task.id}"> <i class="fas fa-trash"></i> </button> </td>
+    //         </tr>
+    //         `;
+    //     }).join("");
 
-        // Populate completed task table with data
-        tableComplete.innerHTML = completeTasks.map( task => {
-            return `
-            <tr>
-                <td> <input type="checkbox" class="checkbox-completed" checkboxId="${task.id}"> </td>
-                <td class="td-description completed-task"> ${task.description} <hr class="td-hr"> </td>
-                <td class="td-btn"> <button class="btn big-delete-btn delete" buttonId="${task.id}"> Delete </button> </td>
-            </tr>
-            `;
-        }).join("");
+    //     // Populate completed task table with data
+    //     tableComplete.innerHTML = completeTasks.map( task => {
+    //         return `
+    //         <tr>
+    //             <td> <input type="checkbox" class="checkbox-completed" checkboxId="${task.id}"> </td>
+    //             <td class="td-description completed-task"> ${task.description} <hr class="td-hr"> </td>
+    //             <td class="td-btn"> <button class="btn big-delete-btn delete" buttonId="${task.id}"> Delete </button> </td>
+    //         </tr>
+    //         `;
+    //     }).join("");
 
-        // Get all checkboxes from the complete table and set checed status to true
-        const completedCheckboxes = document.querySelectorAll(".checkbox-completed");
-        Object.values(completedCheckboxes).forEach( checkBox => checkBox.checked = true);
+    //     // Get all checkboxes from the complete table and set checed status to true
+    //     const completedCheckboxes = document.querySelectorAll(".checkbox-completed");
+    //     Object.values(completedCheckboxes).forEach( checkBox => checkBox.checked = true);
 
-        // Add DELETE event listeners
-        const deleteButtons = document.querySelectorAll(".delete");
-        Object.values(deleteButtons).forEach( button => button.addEventListener("click", () =>  {
-            callDelete(button.getAttribute("buttonId"));
-        }));
+    //     // Add DELETE event listeners
+    //     const deleteButtons = document.querySelectorAll(".delete");
+    //     Object.values(deleteButtons).forEach( button => button.addEventListener("click", () =>  {
+    //         callDelete(button.getAttribute("buttonId"));
+    //     }));
 
-        // Add EDIT event listeners
-        const editButtons = document.querySelectorAll(".edit-btn");
-        Object.values(editButtons).forEach( button => button.addEventListener("click", () => {
-            callEdit(button.getAttribute("buttonId"));
-        }));
+    //     // Add EDIT event listeners
+    //     const editButtons = document.querySelectorAll(".edit-btn");
+    //     Object.values(editButtons).forEach( button => button.addEventListener("click", () => {
+    //         callEdit(button.getAttribute("buttonId"));
+    //     }));
 
-        // Add event listeners to checkboxes
-        const checkboxes = document.querySelectorAll("input[type=checkbox]");
-        Object.values(checkboxes).forEach( checkbox => checkbox.addEventListener("change", () => {
-            //checkbox.checked is a boolean, so setting the accordng status:
-            const taskStatus = {
-                id: Number(checkbox.getAttribute("checkboxId")),
-                is_completed: Number(checkbox.checked)
-            };
+    //     // Add event listeners to checkboxes
+    //     const checkboxes = document.querySelectorAll("input[type=checkbox]");
+    //     Object.values(checkboxes).forEach( checkbox => checkbox.addEventListener("change", () => {
+    //         //checkbox.checked is a boolean, so setting the accordng status:
+    //         const taskStatus = {
+    //             id: Number(checkbox.getAttribute("checkboxId")),
+    //             is_completed: Number(checkbox.checked)
+    //         };
             
-            //calling update
-            handleCheckbox(taskStatus);
+    //         //calling update
+    //         handleCheckbox(taskStatus);
             
-        }));
+    //     }));
 
-    }
+    // }
 
 });
