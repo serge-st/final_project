@@ -1,17 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     const baseURL = "/final_project/api";
-    const testAPI = "/test_api.php?user_id=";
+    const getUserDataAPI = "/getUserData.php?user_id=";
     const saveTaskAPI = "/saveTask.php";
     const deleteTaskAPI = "/deleteTask.php";
     const editTaskAPI = "/editTask.php?id=";
     const completeTaskAPI = "/completeTask.php";
-
-    console.group("API URL:");
-    console.log("user_id: ", "< userId_goes_here >");
-    console.log("API URL: ", `${baseURL}${testAPI}< userId_goes_here >`);
-    console.groupEnd();
-    
+   
 
     // CHECK IF THE USER LOGGED IN
     if (!document.getElementById("session-heading")){
@@ -34,6 +29,14 @@ document.addEventListener("DOMContentLoaded", () => {
             taskInput.setAttribute("taskid", "");  
         } 
         });
+
+    // track if input field is selected
+    taskInput.addEventListener("keydown", event => {
+        if (event.code === "Enter"){
+            callSave(userId);
+            taskInput.setAttribute("taskid", "");
+        }
+    });
 
     
     // SAVE / UPDATE BUTTONS EVENT LISTENERS
@@ -124,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // UPDATE FUNCTIONALITY
-    async function callUpdate(id) {
+    async function callEdit(id) {
         // handling task description update
         const taskInput = document.getElementById("task-input-form");
         taskInput.setAttribute("taskId", id);
@@ -134,6 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const [taskData] = await response.json();
         
         taskInput.value = taskData.description;
+        taskInput.focus();
         console.log(taskData);
 
     }
@@ -159,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // FUNCTION TO GET DATA FROM THE API
     async function getUserData() {
         // Call the API
-        const response = await fetch(`${baseURL}${testAPI}${userId}`);
+        const response = await fetch(`${baseURL}${getUserDataAPI}${userId}`);
 
         // Parse incoming JSON
         const apiData = await response.json();
@@ -220,7 +224,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add EDIT event listeners
         const editButtons = document.querySelectorAll(".edit-btn");
         Object.values(editButtons).forEach( button => button.addEventListener("click", () => {
-            callUpdate(button.getAttribute("buttonId"));
+            callEdit(button.getAttribute("buttonId"));
         }));
 
         // Add event listeners to checkboxes
