@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const testAPI = "/test_api.php?user_id=";
     const saveTaskAPI = "/saveTask.php";
     const deleteTaskAPI = "/deleteTask.php";
-    const updateTaskAPI = "/updateTask.php";
+    const editTaskAPI = "/editTask.php?id=";
     const completeTaskAPI = "/completeTask.php";
 
     console.group("API URL:");
@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // }
         
         callSave(userId);
+        taskInput.setAttribute("taskid", "");
     });
     
     // LISTEN TO CHANGES IN ATTRIBUTE
@@ -128,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const taskInput = document.getElementById("task-input-form");
         taskInput.setAttribute("taskId", id);
         
-        const response = await fetch(`${baseURL}${updateTaskAPI}?id=${id}`);
+        const response = await fetch(`${baseURL}${editTaskAPI}${id}`);
         
         const [taskData] = await response.json();
         
