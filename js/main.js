@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!document.getElementById("session-heading")){
         return "";
     }
-
+    
     // FIELDS THAT ARE GOING TO BE MODIFIED:
     const userId = document.getElementById("session-heading").getAttribute('user-id');
     const taskInput = document.getElementById('task-input-form');
@@ -25,18 +25,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableIncomplete = document.getElementById("user-tasks");
     const tableComplete = document.getElementById("user-completed-tasks");
     const saveButton = document.getElementById('task-form-btn');
-
+    
     // if value.length is 0 change name to save and remove taskid attribute
     taskInput.addEventListener("input", () => console.log('task input field character amount: ', taskInput.value.length));
 
+    
+    // SAVE / UPDATE BUTTONS EVENT LISTENERS
+    // saveButton.addEventListener("click", () => callSave(userId));
+    saveButton.addEventListener("click", () => console.log("save clicked"));
+    
     // LISTEN TO CHANGES IN ATTRIBUTE
     const observer = new MutationObserver( mutations => {
         mutations.forEach( mutation => {
             console.log(mutation)
             if (mutation.type === "attributes" && mutation.attributeName === "taskid") {
-            console.log("attributes changed");
-            saveButton.removeEventListener("click", () => callSave(userId));
+            console.log("mutation triggered");
+            
+            const updateButton = document.getElementById('task-form-btn');
             saveButton.innerText = "Update";
+            saveButton.replaceWith(updateButton);
+
+            updateButton.addEventListener("click", () => console.log("update clicked"));
+
             }
         });
         });
@@ -52,9 +62,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Get data for the current user and update all the elements
     getUserData()
     .catch(err => console.error(err));
-
-    saveButton.addEventListener("click", () => callSave(userId));
-    
     function callSave(userId) {
         const formData = {
             user_id: userId,
@@ -88,24 +95,43 @@ document.addEventListener("DOMContentLoaded", () => {
             method: 'POST',
             body: JSON.stringify({id: id})
         })
-               .then(response => {
+        .then(response => {
             getUserData();
             console.log(response);
         })
         .catch(err => console.error(err));
     }
 
-    async function callUpdate(id) {
+    async function callUpdate(taskDetails) {
         // maybe will need to use MutationObserver
-        const taskInput = document.getElementById("task-input-form");
-        taskInput.setAttribute("taskId", id);
         
-        const response = await fetch(`${baseURL}${updateTaskAPI}?id=${id}`);
+        // if the parameter is Object handle checkbox update, elese handle task update
+        if (taskDetails instanceof Object){
+            // handling checkboxes
+            fetch(`${baseURL}${updateTaskAPI}`, {
+                method: 'POST',
+                body: JSON.stringify(taskDetails)
+            })
+            .then(response => {
+                console.log(response);
+                // then re-render the page contents
+                getUserData()
+                .catch(err => console.error(err));
+            })
+            .catch(err => console.error(err));
+            return;
+        }
+        // handling input form
+        const taskInput = document.getElementById("task-input-form");
+        taskInput.setAttribute("taskId", taskDetails);
+        
+        const response = await fetch(`${baseURL}${updateTaskAPI}?id=${taskDetails}`);
         
         const [taskData] = await response.json();
         
         taskInput.value = taskData.description;
         console.log(taskData);
+
     }
 
 
@@ -141,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tableIncomplete.innerHTML = incompleteTasks.map( task => {
             return `
             <tr>
-                <td> <input type="checkbox"> </td>
+                <td> <input type="checkbox" checkboxId="${task.id}"> </td>
                 <td class="td-description"> ${task.description} <hr class="td-hr"> </td>
                 <td class="td-btn"> <button class="btn edit-btn" buttonId="${task.id}"> <i class="fas fa-edit"></i> </button> </td>
                 <td class="td-btn"> <button class="btn delete-btn delete" buttonId="${task.id}"> <i class="fas fa-trash"></i> </button> </td>
@@ -153,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tableComplete.innerHTML = completeTasks.map( task => {
             return `
             <tr>
-                <td> <input type="checkbox" class="checkbox-completed"> </td>
+                <td> <input type="checkbox" class="checkbox-completed" checkboxId="${task.id}"> </td>
                 <td class="td-description completed-task"> ${task.description} <hr class="td-hr"> </td>
                 <td class="td-btn"> <button class="btn big-delete-btn delete" buttonId="${task.id}"> Delete </button> </td>
             </tr>
@@ -168,14 +194,26 @@ document.addEventListener("DOMContentLoaded", () => {
         const deleteButtons = document.querySelectorAll(".delete");
         Object.values(deleteButtons).forEach( button => button.addEventListener("click", () =>  {
             callDelete(button.getAttribute("buttonId"));
-            getUserData()
-            .catch(err => console.error(err));
         }));
 
         // Add EDIT event listeners
         const editButtons = document.querySelectorAll(".edit-btn");
         Object.values(editButtons).forEach( button => button.addEventListener("click", () => {
             callUpdate(button.getAttribute("buttonId"));
+        }));
+
+        // Add event listeners to checkboxes
+        const checkboxes = document.querySelectorAll("input[type=checkbox]");
+        Object.values(checkboxes).forEach( checkbox => checkbox.addEventListener("change", () => {
+            //checkbox.checked is a boolean, so setting the accordng status:
+            const taskStatus = {
+                id: Number(checkbox.getAttribute("checkboxId")),
+                is_completed: Number(checkbox.checked)
+            };
+            
+            //calling update
+            callUpdate(taskStatus);
+            
         }));
 
     }

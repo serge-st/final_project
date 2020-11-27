@@ -2,13 +2,23 @@
 
 require_once __DIR__ . "/../helpers/db_wrapper.php";
 
-$id = $_GET["id"];
+// Process get requests
+if (!empty($_GET["id"])) {
+    $id = $_GET["id"];
+    $result = DB::run("select * from `user_tasks` where id = '$id'")->fetch_all(MYSQLI_ASSOC);
+    $jsonOutput = json_encode($result);
+    echo $jsonOutput;
+    exit(0);
+}
 
-$result = DB::run("select * from `user_tasks` where id = '$id'")->fetch_all(MYSQLI_ASSOC);
+// Process checkboxes
+$data = json_decode(file_get_contents('php://input'), true);
+extract($data);
+$sql = "UPDATE `user_tasks` SET is_completed = $is_completed WHERE id = $id";
+DB::run($sql);
 
-$jsonOutput = json_encode($result);
 
-echo $jsonOutput;
+// PHP HOW TO CHECK IF VARIABLE EXISTS?
 
 // class UpdateTask {
 //     public function execute() {
