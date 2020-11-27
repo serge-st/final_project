@@ -7,8 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const editTaskAPI = "/editTask.php?id=";
     const completeTaskAPI = "/completeTask.php";
    
-
-    // CHECK IF THE USER LOGGED IN
+    // CHECK IF THE USER LOGGED IN (SAFETY FALLBACK) 
     if (!document.getElementById("session-heading")){
         return "";
     }
@@ -22,68 +21,51 @@ document.addEventListener("DOMContentLoaded", () => {
     const tableComplete = document.getElementById("user-completed-tasks");
     const saveButton = document.getElementById('task-form-btn');
     
+    // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
+    const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
+
+    // Get data for the current user and update all the elements
+    getUserData()
+    .catch(err => console.error(err));
+
     // if value.length is 0 change name to save and remove taskid attribute
     taskInput.addEventListener("input", () => {
-        console.log('task input field character amount: ', taskInput.value.length);
         if (taskInput.value.length === 0) {
             taskInput.setAttribute("taskid", "");  
         } 
-        });
+    });
 
     // track if input field is selected
     taskInput.addEventListener("keydown", event => {
         if (event.code === "Enter"){
             callSave(userId);
-            taskInput.setAttribute("taskid", "");
         }
     });
 
-    
     // SAVE / UPDATE BUTTONS EVENT LISTENERS
     saveButton.addEventListener("click", () => {
-        // OLD STUFF
-        // if (saveButton.getAttribute("callAPI") === "Save") {
-        //     console.log('saving');
-        //     callSave(userId);
-        // } else if (saveButton.getAttribute("callAPI") === "Update") {
-        //     console.log('updating');
-        // } else {
-        //     console.error(new Error("Something went wrong"));
-        // }
-        
         callSave(userId);
-        taskInput.setAttribute("taskid", "");
     });
     
     // LISTEN TO CHANGES IN ATTRIBUTE
     const observer = new MutationObserver( mutations => {
         mutations.forEach( mutation => {
+            console.log("mutation triggered");
             if (mutation.type === "attributes" && mutation.attributeName === "taskid") {
-                console.log("mutation triggered");
-                
                 if (!!taskInput.getAttribute("taskid")){
                     saveButton.innerText = "Update";
-                    saveButton.setAttribute("callAPI", "Update");
                 } else {
                     saveButton.innerText = "Save";
-                    saveButton.setAttribute("callAPI", "Save");
                 }
             }
         });
-        });
+    });
     
     // Observer listening to atribute changes in taskInput const
     observer.observe(taskInput, {
         attributes: true
     });
     
-    // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
-    const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
-    
-    // Get data for the current user and update all the elements
-    getUserData()
-    .catch(err => console.error(err));
-
     // SAVE FUNCTIONALITY
     function callSave(userId) {
         const formData = {
@@ -93,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         taskInput.value = "";
+        taskInput.setAttribute("taskid", "");
 
         // implement error handling
         if (formData.description.length === 0) return;
@@ -101,35 +84,29 @@ document.addEventListener("DOMContentLoaded", () => {
             method: 'POST',
             body: JSON.stringify(formData)
         })
-        .then(response => {
+        .then( () => {
             getUserData();
-            console.log(response);
         })
         .catch(err => console.error(err));
-        // then implement error handling
-        
-        
     }
 
     // DELETE FUNCTIONALITY
     function callDelete(id) {
         // implement error handling
-
         fetch(`${baseURL}${deleteTaskAPI}`, {
             method: 'POST',
             body: JSON.stringify({id: id})
         })
-        .then(response => {
+        .then( () => {
             getUserData();
-            console.log(response);
         })
         .catch(err => console.error(err));
     }
 
     // UPDATE FUNCTIONALITY
     async function callEdit(id) {
-        // handling task description update
         const taskInput = document.getElementById("task-input-form");
+        
         taskInput.setAttribute("taskId", id);
         
         const response = await fetch(`${baseURL}${editTaskAPI}${id}`);
@@ -138,8 +115,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         taskInput.value = taskData.description;
         taskInput.focus();
-        console.log(taskData);
-
     }
 
     // CHECKBOX FUNCTIONNALITY
@@ -148,11 +123,9 @@ document.addEventListener("DOMContentLoaded", () => {
             method: 'POST',
             body: JSON.stringify(taskStatus)
         })
-        .then(response => {
-            console.log(response);
+        .then( () => {
             // then re-render the page contents
-            getUserData()
-            .catch(err => console.error(err));
+            getUserData();
         })
         .catch(err => console.error(err));
     }
@@ -242,9 +215,5 @@ document.addEventListener("DOMContentLoaded", () => {
         }));
 
     }
-
-
-
-
 
 });
