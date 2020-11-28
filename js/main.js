@@ -1,59 +1,33 @@
 import {getUserData} from "./components/getUserData.js";
+import {callSave} from "./components/saveUpdate.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    
-    const baseURL = "/final_project/api";
-    const getUserDataAPI = "/getUserData.php?user_id=";
-    const saveTaskAPI = "/saveTask.php";
-    const deleteTaskAPI = "/deleteTask.php";
-    const editTaskAPI = "/editTask.php?id=";
-    const completeTaskAPI = "/completeTask.php";
-   
     // CHECK IF THE USER LOGGED IN (SAFETY FALLBACK) 
     if (!document.getElementById("session-heading")){
         return "";
     }
-    
-    // FIELDS THAT ARE GOING TO BE MODIFIED:
-    const userId = document.getElementById("session-heading").getAttribute('user-id');
-    const taskInput = document.getElementById('task-input-form');
-    const taskNumber = document.getElementById("task-number");
-    const encourage = document.getElementById("encourage");
-    const tableIncomplete = document.getElementById("user-tasks");
-    const tableComplete = document.getElementById("user-completed-tasks");
-    const saveButton = document.getElementById('task-form-btn');
-    
-    // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
-    const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
-
     // Get data for the current user and update all the elements
     getUserData()
     .catch(err => console.error(err));
 
-    // if value.length is 0 change name to save and remove taskid attribute
-    taskInput.addEventListener("input", () => {
-        if (taskInput.value.length === 0) {
-            taskInput.setAttribute("taskid", "");  
-        } 
-    });
-
-    // track if input field is selected
-    taskInput.addEventListener("keydown", event => {
-        if (event.code === "Enter"){
-            callSave(userId);
-        }
-    });
-
-    // SAVE / UPDATE BUTTONS EVENT LISTENERS
-    saveButton.addEventListener("click", () => {
-        callSave(userId);
-    });
     
-    // LISTEN TO CHANGES IN ATTRIBUTE
+    // const baseURL = "/final_project/api";
+    // const saveTaskAPI = "/saveTask.php";
+
+    // const getUserDataAPI = "/getUserData.php?user_id=";
+    // const deleteTaskAPI = "/deleteTask.php";
+    // const editTaskAPI = "/editTask.php?id=";
+    // const completeTaskAPI = "/completeTask.php";
+   
+    
+    // FIELDS THAT ARE GOING TO BE MODIFIED:
+    const userId = document.getElementById("session-heading").getAttribute('user-id');
+    const taskInput = document.getElementById('task-input-form');
+    const saveButton = document.getElementById('task-form-btn');
+
+    // When "Edit Task" is pressed id of the desired task is inserted in taskId attribute
     const observer = new MutationObserver( mutations => {
         mutations.forEach( mutation => {
-            console.log("mutation triggered");
             if (mutation.type === "attributes" && mutation.attributeName === "taskid") {
                 if (!!taskInput.getAttribute("taskid")){
                     saveButton.innerText = "Update";
@@ -63,35 +37,100 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-    
-    // Observer listening to atribute changes in taskInput const
+    // Listen to "taskInput" elements attribute change
     observer.observe(taskInput, {
         attributes: true
     });
+
+    // If nothing is in the input field change name to Save and remove taskid attribute
+    taskInput.addEventListener("input", () => {
+        if (taskInput.value.length === 0) {
+            taskInput.setAttribute("taskid", "");  
+        } 
+    });
+
+    // SAVE / UPDATE BUTTONS EVENT LISTENERS
+    saveButton.addEventListener("click", () => {
+        callSave(userId);
+    });
+
+    // Allow to save/update data by pressing "Enter"
+    taskInput.addEventListener("keydown", event => {
+        if (event.code === "Enter"){
+            callSave(userId);
+        }
+    });
+
+    // const taskNumber = document.getElementById("task-number");
+    // const encourage = document.getElementById("encourage");
+    // const tableIncomplete = document.getElementById("user-tasks");
+    // const tableComplete = document.getElementById("user-completed-tasks");
     
-    // SAVE FUNCTIONALITY
-    function callSave(userId) {
-        const formData = {
-            id: taskInput.getAttribute("taskid"),
-            user_id: userId,
-            description: taskInput.value
-        };
+    // Encouragment text - if there are tasks display 1st element, if no tasks - display 2nd element
+    // const encourageText = ["Let's do some work 💪", "Time to rest 👌"];
 
-        taskInput.value = "";
-        taskInput.setAttribute("taskid", "");
 
-        // implement error handling
-        if (formData.description.length === 0) return;
+    // // if value.length is 0 change name to save and remove taskid attribute
+    // taskInput.addEventListener("input", () => {
+    //     if (taskInput.value.length === 0) {
+    //         taskInput.setAttribute("taskid", "");  
+    //     } 
+    // });
 
-        fetch(`${baseURL}${saveTaskAPI}`, {
-            method: 'POST',
-            body: JSON.stringify(formData)
-        })
-        .then( () => {
-            getUserData();
-        })
-        .catch(err => console.error(err));
-    }
+    // // track if input field is selected
+    // taskInput.addEventListener("keydown", event => {
+    //     if (event.code === "Enter"){
+    //         callSave(userId);
+    //     }
+    // });
+
+    // // SAVE / UPDATE BUTTONS EVENT LISTENERS
+    // saveButton.addEventListener("click", () => {
+    //     callSave(userId);
+    // });
+    
+    // // LISTEN TO CHANGES IN ATTRIBUTE
+    // const observer = new MutationObserver( mutations => {
+    //     mutations.forEach( mutation => {
+    //         console.log("mutation triggered");
+    //         if (mutation.type === "attributes" && mutation.attributeName === "taskid") {
+    //             if (!!taskInput.getAttribute("taskid")){
+    //                 saveButton.innerText = "Update";
+    //             } else {
+    //                 saveButton.innerText = "Save";
+    //             }
+    //         }
+    //     });
+    // });
+    
+    // // Observer listening to atribute changes in taskInput const
+    // observer.observe(taskInput, {
+    //     attributes: true
+    // });
+    
+    // // SAVE FUNCTIONALITY
+    // function callSave(userId) {
+    //     const formData = {
+    //         id: taskInput.getAttribute("taskid"),
+    //         user_id: userId,
+    //         description: taskInput.value
+    //     };
+
+    //     taskInput.value = "";
+    //     taskInput.setAttribute("taskid", "");
+
+    //     // implement error handling
+    //     if (formData.description.length === 0) return;
+
+    //     fetch(`${baseURL}${saveTaskAPI}`, {
+    //         method: 'POST',
+    //         body: JSON.stringify(formData)
+    //     })
+    //     .then( () => {
+    //         getUserData();
+    //     })
+    //     .catch(err => console.error(err));
+    // }
 
 
 
