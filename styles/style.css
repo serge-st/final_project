@@ -1,13 +1,4 @@
 :root {
-    /* PALLETE #1 */
-
-    /* --dd-blue: #1a1a2e;
-    --d-blue: #16213e;
-    --blue: #0f3460;
-    --red: #e94560; */
-
-    /* PALLETE #2 */
-
     --blue: #120078;
     --eggplant: #9D0191;
     --red: #FE5360;
@@ -149,7 +140,6 @@ body {
     left: 0;
 
     margin: 0 auto;
-    /* min-width: 320px; */
     width: 45%;
 
     display: flex;
@@ -285,8 +275,6 @@ input[type="checkbox"]:hover {
     color: white;
 }
 
-
-
 /* Logout form */
 .logout-form {
     margin-top: 25px;
@@ -294,15 +282,29 @@ input[type="checkbox"]:hover {
     flex-direction: row-reverse;
 }
 
-/* iPhone 5/SE setting */
-@media only screen and (max-width: 321px) { 
-    .app-container {
-        padding: 0 5px;
-        
+/* Make the app bigger on larger screns */
+@media only screen and (min-width: 1000px) { 
+    .app-container{
+        zoom: 1.25;
     }
+    #logout-button,
+    #task-form-btn{
+        position: relative;
+        right: 1px;
+    }
+}
 
+/* Make task text fit on all devices */
+@media only screen and (max-width: 500px) { 
     table * {
         font-size: 13px;
+    }
+}
+
+/* iPhone 5/SE setting */
+@media only screen and (max-width: 321px) { 
+    .app-container{
+        zoom: .96;
     }
 }
 

@@ -1,5 +1,4 @@
 config.ini
-sql.sql
 /.vscode/*
 stuff_to_remove_after_testing.txt
 small_future_improvements.txt
