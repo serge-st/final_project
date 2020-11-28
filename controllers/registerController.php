@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . "/../helpers/db_wrapper.php";
+require_once __DIR__ . "/../components/modal.php";
 
 class RegisterController {
     // change to private
@@ -24,13 +25,21 @@ class RegisterController {
             $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             // call to DB
+            // check if user exists:
             if (DB::run("SELECT `user_id` FROM users WHERE email='$email'")->num_rows === 0){
                 DB::run("INSERT INTO `users` VALUES ('$userId', '$email', '$username', '$hashedPassword')");
-                // remove when a better solution is complete
-                header("location: /final_project/login.php");
+
+                $successPopUp = new PopUpModal;
+                $successPopUp->setMessage("User Created!");
+                $successPopUp->html();
+                
+                // redirect user
+                header("refresh:1; url=/final_project/login.php");
             } else {
-                // remove when a better solution is complete
-                echo "user exists";
+                $errorPopUp = new PopUpModal;
+                $errorPopUp->setMessage("User Already Exists");
+                $errorPopUp->setCloseManually(true);
+                $errorPopUp->html();
             };
 
         } else {

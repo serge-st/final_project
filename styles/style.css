@@ -308,6 +308,35 @@ input[type="checkbox"]:hover {
     }
 }
 
+.popup-modal-wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.popup-modal {
+    position: relative;
+    padding: 85px 10px 0;
+    height: 200px;
+    width: 320px;
+    border-radius: 3px;
+    background-image: var(--bg-gradient-lighter);
+    color: white;
+    text-align: center;
+}
+
+.popup-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
 /*<========= CSS TEMPLATE =========>
 ===| Position of the element |===
 position
