@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const taskInput = document.getElementById('task-input-form');
     const saveButton = document.getElementById('task-form-btn');
 
+    // Zoom functionality on the main page
+    document.querySelector(".app-container").classList.add("zoomed");
+
     // When "Edit Task" is pressed id of the desired task is inserted in taskId attribute
     const observer = new MutationObserver( mutations => {
         mutations.forEach( mutation => {

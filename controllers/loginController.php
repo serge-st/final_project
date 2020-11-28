@@ -28,21 +28,17 @@ class LoginController {
                 $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             } else {
                 // remove when a better solution is complete
-                echo "user doesn't exist";
                 exit(0);
             }
             
             if (password_verify($password, $result["password"])) {
                 // remove when a better solution is complete
-                echo "logging in";
             } else {
                 // remove when a better solution is complete
-                echo "incorrect password";
                 exit(0);
             }
 
             // start sesstion
-            echo "starting session";
             session_start();
             // set session tokens
             $sessionId = hash_hmac($this->hashAlgo, time(), $this->sessToken);

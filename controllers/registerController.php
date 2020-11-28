@@ -33,9 +33,6 @@ class RegisterController {
                 echo "user exists";
             };
 
-            // TODO show success message (in JS or form.php);
-            // TODO check if the user already exists??? (possibli query db api with fetch on input email keyup)
-            // TODO create uses and redirect to login page
         } else {
             // TODO implement error handling
             exit(0);

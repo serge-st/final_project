@@ -6,6 +6,7 @@ require_once __DIR__ . "/loginController.php";
 require_once __DIR__ . "/logoutController.php";
 require_once __DIR__ . "/registerController.php";
 require_once __DIR__ . "/sessionVerifyController.php";
+require_once __DIR__ . "/sessionRedirectController.php";
 
 class RunApp {
     public static function header(){
@@ -51,5 +52,9 @@ class RunApp {
 
     public static function doItDataController(){
         (new DoItContents)->displayName();
+    }
+
+    public static function sessionRedirectController(){
+        (new SessionRedirectController)->activate();
     }
 };

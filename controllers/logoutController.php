@@ -11,7 +11,6 @@ class LogoutController {
             DB::run("DELETE FROM `user_sessions` WHERE `user_id`= '$userId'");
             // destroy session
             $_SESSION = array();
-            var_dump($_SESSION);
             session_destroy();
             header("location: /final_project/login.php");
         }

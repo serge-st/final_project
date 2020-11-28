@@ -284,7 +284,7 @@ input[type="checkbox"]:hover {
 
 /* Make the app bigger on larger screns */
 @media only screen and (min-width: 1000px) { 
-    .app-container{
+    .zoomed{
         zoom: 1.25;
     }
     #logout-button,
@@ -295,7 +295,7 @@ input[type="checkbox"]:hover {
 }
 
 /* Make task text fit on all devices */
-@media only screen and (max-width: 500px) { 
+@media only screen and (max-width: 500px) {
     table * {
         font-size: 13px;
     }
@@ -303,7 +303,7 @@ input[type="checkbox"]:hover {
 
 /* iPhone 5/SE setting */
 @media only screen and (max-width: 321px) { 
-    .app-container{
+    .zoomed{
         zoom: .96;
     }
 }
