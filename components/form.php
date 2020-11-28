@@ -40,10 +40,10 @@ class Form {
         <form method="POST">
             
             <?php if($this->formType === "Register") : ?>
-                <input type="text" placeholder="Username" name="username">
+                <input type="text" placeholder="Username" name="username" required>
             <?php endif; ?>
-            <input type="text" placeholder="Email" name="email">
-            <input type="password" placeholder="Password" name="password">
+            <input type="email" placeholder="Email" name="email" required>
+            <input type="password" placeholder="Password" name="password" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters">
             <button id="login-button" type="submit"  class="btn"> <?= $this->formType ?> </button>
             <div class="form-question">
                 <p> <?= $this->callToAction ?> </p><a class="signup-register" href=" <?= '/final_project/' . $this->actionLink . '.php' ?> "> <?= $this->actionLink ?> </a>

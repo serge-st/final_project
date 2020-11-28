@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__ . "/../helpers/db_wrapper.php";
+require_once __DIR__ . "/../components/modal.php";
 
 class LoginController {
-    // change to private
     private $authToken;
     private $hashAlgo;
     private $sessToken;
@@ -18,7 +18,6 @@ class LoginController {
         // checking if the required fields are set:
         if (!empty($_POST["email"]) && !empty($_POST["password"])) {
             $email = $_POST["email"];
-
             // Call DB to check if user exists
             $result = DB::run("SELECT `password`, `user_id` FROM `users` WHERE email='$email'")->fetch_assoc();
 
@@ -28,13 +27,22 @@ class LoginController {
                 $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             } else {
                 // remove when a better solution is complete
+                $errorPopUp = new PopUpModal;
+                $errorPopUp->setMessage("Incorrect User or Password");
+                $errorPopUp->setCloseManually(true);
+                $errorPopUp->html();
+                unset($_POST);
                 exit(0);
             }
             
             if (password_verify($password, $result["password"])) {
                 // remove when a better solution is complete
             } else {
-                // remove when a better solution is complete
+                $errorPopUp = new PopUpModal;
+                $errorPopUp->setMessage("Incorrect User or Password");
+                $errorPopUp->setCloseManually(true);
+                $errorPopUp->html();
+                unset($_POST);
                 exit(0);
             }
 
@@ -58,6 +66,7 @@ class LoginController {
 
         } else {
             // TODO implement error handling
+            unset($_POST);
             exit(0);
         }
     }
