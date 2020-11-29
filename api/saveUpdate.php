@@ -6,6 +6,7 @@ class SaveTask {
     public function execute() {
         $data = json_decode(file_get_contents('php://input'), true);
         extract($data);
+        $description= DB::converText($description);
 
         if (empty($id)){
             $sql = "INSERT INTO `user_tasks` (`user_id`, `description`) VALUES ('$user_id', '$description')";

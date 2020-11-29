@@ -24,6 +24,13 @@ class DB {
         self::$connection = null;
     }
 
+    public static function converText($text){
+        if (self::$connection === null){
+            self::openConnection();
+        }
+        return self::$connection->real_escape_string($text);
+    }
+
     public static function run($sql){
         if (self::$connection === null){
             self::openConnection();
@@ -34,7 +41,6 @@ class DB {
         if (self::$connection->error){
             $error = self::$connection->error;
             self::closeConnection();
-            // exit("SQL Error: " . $error);
             return false;
         }
 
