@@ -4,10 +4,8 @@ class SessionRedirectController {
     public function activate(){
         session_start();
 
-        if (empty($_SESSION)){
-            return;
+        if (!empty($_SESSION)){
+            header("location: /final_project/index.php");
         }
-
-        header("location: /final_project/index.php");
     }
 }
