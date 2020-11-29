@@ -3,3 +3,4 @@ config.ini
 stuff_to_remove_after_testing.txt
 small_future_improvements.txt
 css_template.txt
+/.ssh/*

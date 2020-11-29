@@ -1,5 +1,5 @@
 <?php
-require_once "./controllers/app.php";
+require_once __DIR__ . "/controllers/app.php";
 
 RunApp::sessionVerifyController();
 RunApp::header();
