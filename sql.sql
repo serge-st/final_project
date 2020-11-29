@@ -1,4 +1,4 @@
-create database `doit_app_db`;
+CREATE DATABASE `doit_app_db`;
 
 create table `doit_app_db`.`users` (
     `user_id` varchar(32) not null,
@@ -18,7 +18,7 @@ create table `doit_app_db`.`user_sessions` (
 create table `doit_app_db`.`user_tasks` (
     `id` INT AUTO_INCREMENT,
     `user_id` varchar(32) not null,
-    `task_description` varchar(100) not null,
+    `description` varchar(100) not null,
     `is_completed` bit DEFAULT 0,
     `list_order` int DEFAULT 1,
     PRIMARY KEY (`id`),

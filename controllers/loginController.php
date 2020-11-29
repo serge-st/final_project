@@ -59,6 +59,11 @@ class LoginController {
             $_SESSION["session_id"] = $sessionId;
             $_SESSION["startTime"] = $sessionStartTime;
 
+            // If session exists delete the old one (WORKAROUND)
+            if (DB::run("SELECT * FROM `user_sessions` WHERE `user_id` = '$userId'")->num_rows) {
+                DB::run("DELETE FROM `user_sessions` WHERE `user_id` = '$userId')");
+            }
+
             // create session record in DB
             DB::run("INSERT into `user_sessions` VALUES ('$sessionId', '$userId')");
 

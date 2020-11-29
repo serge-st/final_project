@@ -11,11 +11,11 @@ class Form {
         if ($formType === "register") {
             $this->formType = "Register";
             $this->callToAction = "Already have an account?" . "&nbsp";
-            $this->actionLink = "Login";
+            $this->actionLink = "login";
         } else if ($formType === "login") {
             $this->formType = "Login";
             $this->callToAction = "Don't have an account?" . "&nbsp";
-            $this->actionLink = "Register";
+            $this->actionLink = "register";
         } else {
             var_dump('Form type can only be "login" or "register" ');
         }
