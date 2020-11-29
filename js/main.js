@@ -1,11 +1,16 @@
 import {getUserData} from "./components/getUserData.js";
 import {callSave} from "./components/saveUpdate.js";
+import {copyrightYear} from "./components/copyrightYear.js";
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Set footer copyright year
+    document.getElementById("copyright-year").innerHTML = copyrightYear();
+
     // Check if user is logged in (safety fallback) 
     if (!document.getElementById("session-heading")){
         return "";
     }
+
     // Get data for the current user and update all the elements
     getUserData()
     .catch(err => console.error(err));
@@ -29,6 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
+
     // Listen to "taskInput" elements attribute change
     observer.observe(taskInput, {
         attributes: true

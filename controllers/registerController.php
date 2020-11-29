@@ -17,16 +17,20 @@ class RegisterController {
         if (!empty($_POST["email"]) && !empty($_POST["password"]) && !empty($_POST["username"])) {
             // setting auth token and hashing algorithm
             $this->setTokens();
+
             // collecting all the required fields
             $email = $_POST["email"];
             $username = $_POST["username"];
             $userId = md5($email);
+
             // processing password
             $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            // call to DB
+
+            // calls to DB
             // check if user exists:
             if (DB::run("SELECT `user_id` FROM users WHERE email='$email'")->num_rows === 0){
+                // insert new user
                 DB::run("INSERT INTO `users` VALUES ('$userId', '$email', '$username', '$hashedPassword')");
 
                 $successPopUp = new PopUpModal;
@@ -43,7 +47,6 @@ class RegisterController {
             };
 
         } else {
-            // TODO implement error handling
             exit(0);
         }
     }

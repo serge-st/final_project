@@ -97,7 +97,10 @@ body {
     display: inline;
 }
 
-.signup-register, .signup-register:visited {
+.signup-register, 
+.signup-register:visited,
+.github-link,
+.github-link:visited {
     color: var(--orange);
 }
 
@@ -337,30 +340,11 @@ input[type="checkbox"]:hover {
     bottom: 10px;
 }
 
-/*<========= CSS TEMPLATE =========>
-===| Position of the element |===
-position
-top
-left
-z-index
+.copyright-text {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 1px;
 
-===| Block structure |===
-margin
-padding
-width
-height
-border
-
-===| Display structure |===
-display
-float
-center
-overflow
-
-===| Other attributes |===
-font-size
-font-weight
-text-decoration
-color
-background
-<========= TEMPLATE END =========>*/
+    font-size: 9px;
+}

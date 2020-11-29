@@ -41,7 +41,7 @@ class DB {
         if (self::$connection->error){
             $error = self::$connection->error;
             self::closeConnection();
-            return false;
+            exit($error);
         }
 
         self::closeConnection();

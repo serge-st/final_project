@@ -18,6 +18,7 @@ class LoginController {
         // checking if the required fields are set:
         if (!empty($_POST["email"]) && !empty($_POST["password"])) {
             $email = $_POST["email"];
+
             // Call DB to check if user exists
             $result = DB::run("SELECT `password`, `user_id` FROM `users` WHERE email='$email'")->fetch_assoc();
 
@@ -36,7 +37,7 @@ class LoginController {
             }
             
             if (password_verify($password, $result["password"])) {
-                // remove when a better solution is complete
+
             } else {
                 $errorPopUp = new PopUpModal;
                 $errorPopUp->setMessage("Incorrect User or Password");
@@ -48,6 +49,7 @@ class LoginController {
 
             // start sesstion
             session_start();
+
             // set session tokens
             $sessionId = hash_hmac($this->hashAlgo, time(), $this->sessToken);
             $sessionStartTime = date('Y-m-d_H:i:s');
@@ -61,11 +63,9 @@ class LoginController {
             DB::run("INSERT into `user_sessions` VALUES ('$sessionId', '$userId')");
 
             // redirect to the main app page
-            // remove when a better solution is complete
             header("location: /final_project/index.php");
 
         } else {
-            // TODO implement error handling
             unset($_POST);
             exit(0);
         }
