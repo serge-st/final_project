@@ -27,7 +27,6 @@ class LoginController {
                 $this->setTokens();
                 $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             } else {
-                // remove when a better solution is complete
                 $errorPopUp = new PopUpModal;
                 $errorPopUp->setMessage("Incorrect User or Password");
                 $errorPopUp->setCloseManually(true);
@@ -59,7 +58,7 @@ class LoginController {
             $_SESSION["session_id"] = $sessionId;
             $_SESSION["startTime"] = $sessionStartTime;
 
-            // If session exists delete the old one (WORKAROUND)
+            // If session exists delete the old one
             if (DB::run("SELECT * FROM `user_sessions` WHERE `user_id` = '$userId'")->num_rows) {
                 DB::run("DELETE FROM `user_sessions` WHERE `user_id` = '$userId')");
             }

@@ -3,7 +3,6 @@ require_once __DIR__ . "/../helpers/db_wrapper.php";
 require_once __DIR__ . "/../components/modal.php";
 
 class RegisterController {
-    // change to private
     private $authToken;
     private $hashAlgo;
 
@@ -13,22 +12,17 @@ class RegisterController {
     }
 
     public function processRegister() {
-        // checking if the required fields are set:
         if (!empty($_POST["email"]) && !empty($_POST["password"]) && !empty($_POST["username"])) {
-            // setting auth token and hashing algorithm
             $this->setTokens();
 
-            // collecting all the required fields
             $email = $_POST["email"];
             $username = $_POST["username"];
             $userId = md5($email);
 
-            // processing password
             $password = hash_hmac($this->hashAlgo, $_POST["password"], $this->authToken);
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
             // calls to DB
-            // check if user exists:
             if (DB::run("SELECT `user_id` FROM users WHERE email='$email'")->num_rows === 0){
                 // insert new user
                 DB::run("INSERT INTO `users` VALUES ('$userId', '$email', '$username', '$hashedPassword')");

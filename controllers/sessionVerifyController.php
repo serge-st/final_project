@@ -9,7 +9,6 @@ class SessionVerifier {
         session_start();
         // REDIRECT IF SESSION ID WAS NOT CREATED
         if (empty($_SESSION["session_id"])) {
-            // querry DB for user and session
             header("location: /final_project/login.php");
             exit(0);
         }
